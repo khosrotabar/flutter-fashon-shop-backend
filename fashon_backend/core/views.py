@@ -8,7 +8,7 @@ import random
 # Create your views here.
 class CategoryList(generics.ListAPIView):
     serializer_class = serializers.CategorySerializer
-
+    
     queryset = models.Category.objects.all()
 
 class HomeCategoryList(generics.ListAPIView):
@@ -42,21 +42,21 @@ class PopularProductsList(generics.ListAPIView):
     serializer_class =serializers.ProductSerializer
     
     def get_queryset(self):
-        queryset = models.Product.objects.filter(rating__gte=4.0, rating__lte=5.0)
+        queryset = models.Product.objects.filter(ratings__gte=4.0, ratings__lte=5.0)
         queryset = queryset.annotate(random_order=Count('id'))
         queryset = list(queryset)
         random.shuffle(queryset)
 
         return queryset[:20]
 
-class ProductsListByClothesType(generics.ListAPIView):
+class ProductsListByClothesType(APIView):
     serializer_class = serializers.ProductSerializer
 
-    def get_queryset(self, request):
-        query = request.query_params.get('clothes_type', None)
+    def get(self, request):
+        query = request.query_params.get('clothesType', None)
 
         if query:
-            queryset = models.Product.objects.filter(clothes_type=query)
+            queryset = models.Product.objects.filter(clothesType=query)
             queryset = queryset.annotate(random_order=Count('id'))
 
             products_list = list(queryset)
