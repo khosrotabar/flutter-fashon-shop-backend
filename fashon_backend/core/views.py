@@ -73,7 +73,7 @@ class ProductsListByClothesType(APIView):
 class SilmilarProducts(APIView):
 
     def get(self, request):
-        query = request.querY_params.get('category', None)
+        query = request.query_params.get('category', None)
 
         if query:
             products = models.Product.objects.filter(category = query)
@@ -96,7 +96,7 @@ class SearchProductsByTitle(APIView):
         query = request.query_params.get('q', None)
 
         if query:
-            products = models.Product.objects.filter(title_icontains=query)
+            products = models.Product.objects.filter(title__icontains=query)
 
             serializer = serializers.ProductSerializer(products, many=True)
             return Response(serializer.data)
