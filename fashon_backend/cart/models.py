@@ -8,8 +8,9 @@ class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     size = models.CharField(max_length=50, blank=False)
-    created_at = models.DateTimeField(default=timezone.now())
-    updated_at = models.DateTimeField(default=timezone.now())
+    color = models.CharField(max_length=50, blank=False, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return '{}/{}'.format(self.userId.username, self.product.title)
